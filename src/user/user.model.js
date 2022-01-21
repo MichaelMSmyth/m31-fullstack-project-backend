@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const { string } = require("yargs");
+
 
 const userSchema = new mongoose.Schema({
     username: {
