@@ -8,7 +8,7 @@ const { addUser,
         } = require("./user.controller.js");
 const { hashPassword, 
         decryptPassword, 
-        tokenCheck } = require("../middleware/middleware.js");
+        tokenCheck } = require("../middleware/index");
 const userRouter = Router();
 
 userRouter.post("/user/signup", hashPassword, addUser);
