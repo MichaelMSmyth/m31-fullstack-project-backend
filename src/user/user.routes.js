@@ -13,7 +13,7 @@ const userRouter = Router();
 
 userRouter.post("/user/signup", hashPassword, addUser);
 userRouter.post("/user/login", decryptPassword, logIn);
-userRouter.get("/user/:username", listUser);
+userRouter.get("/user/:email", listUser);
 userRouter.put("/user", updateUser);
 userRouter.delete("/user/:email", deleteUser);
 userRouter.get("/user", tokenCheck);

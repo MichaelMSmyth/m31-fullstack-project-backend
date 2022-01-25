@@ -8,7 +8,31 @@ exports.addCard = async (req, res) => {
     try {
         const card = await Card.create(req.body);
         await User.updateOne({email: req.params.email}, {$push: {card: card._id}});
-        const user = await  User.findOne({email: req.params.email});
+        const user = await User.findOne({email: req.params.email});
+        res.status(200).send({user});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "Check server logs"});
+    }
+}
+
+exports.listCard = async (req, res) => {
+    try {
+        const card = Card.listIndexes();
+        await Card.find({$in: {card: card._id}});
+        const user = await User.findOne({email: req.params.email});
+        res.status(200).send({user});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "Check server logs"});
+    }
+}
+
+exports.updateCard = async (req, res) => {
+    try {
+        const card = await Card.updateOne(req.body);
+        await User.updateOne({email: req.params.email}, {$set: {card: card._id}});
+        const user = await Card.findOne({email: req.params.email});
         res.status(200).send({user});
     } catch (error) {
         console.log(error);
@@ -18,9 +42,8 @@ exports.addCard = async (req, res) => {
 
 exports.deleteCard = async (req, res) => {
     try {
-        const card = await Card.deleteOne(req.body);
-        await User.updateOne({email: req.params.email}, {$pop: {card: card._id}});
-        const user = await  User.findOne({email: req.params.email});
+        await User.deleteOne({email: req.params.email}, {$pop: {card: req.params.title}});
+        const user = await  Card.findOne({email: req.params.email});
         res.status(200).send({user});
     } catch (error) {
         console.log(error);
