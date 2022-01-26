@@ -26,9 +26,9 @@ exports.listUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const updatedUser = await User.updateOne(
-            { username: req.body.username },
-            { $set: { email: req.body.email } },
+        const updatedUser = await User.findOneAndUpdate(
+            { email: req.body.email },
+            { $set: { username: req.body.username } },
             { new: true }
         );
         res.status(200).send({ message: "Success", updatedUser })
@@ -40,7 +40,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const deletedUser = await User.deleteOne({ email: req.params.email });
+        const deletedUser = await User.findOneAndDelete({ email: req.params.email });
         res.status(200).send({ message: "Success", deletedUser })
     } catch (error) {
         console.log(error);
